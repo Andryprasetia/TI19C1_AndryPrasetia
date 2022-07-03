@@ -1,7 +1,11 @@
 package com.andryprasetia.jenishewan
 
+import android.app.Dialog
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.Window
+import android.widget.ImageView
+import android.widget.TextView
 import com.andryprasetia.jenishewan.adapter.AdapterHewan
 import com.andryprasetia.jenishewan.databinding.ActivityMainBinding
 import com.andryprasetia.jenishewan.model.Hewan
@@ -22,7 +26,26 @@ class MainActivity : AppCompatActivity() {
 
         binding.list.adapter = AdapterHewan(this,listHewan,object :AdapterHewan.OnClickListener {
             override fun detailData(item: Hewan?) {
-                TODO("Not yet implemented")
+                Dialog(this@MainActivity).apply {
+                    requestWindowFeature(Window.FEATURE_NO_TITLE)
+                    setCancelable(true)
+                    setContentView(R.layout.detail_data_hewan)
+
+                    val image = this.findViewById<ImageView>(R.id.image_hewan)
+                    val nama = this.findViewById<TextView>(R.id.txtNamaHewan)
+                    val makanan = this.findViewById<TextView>(R.id.txtNamaMakanan)
+                    val berkembang = this.findViewById<TextView>(R.id.txtNamaBerkembang)
+                    val btn = this.findViewById<TextView>(R.id.btnclose)
+
+                    image.setImageResource(item?.foto ?: 0)
+                    nama.text = "${item?.nama}"
+                    makanan.text = "${item?.makanan}"
+                    berkembang.text = "${item?.berkembang}"
+
+                    btn.setOnClickListener {
+                        this.dismiss()
+                    }
+                }.show()
             }
 
         })
